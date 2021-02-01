@@ -1,5 +1,4 @@
 // содежимое index.js
-const http = require("http");
 const port = 4000;
 const data = [
   {
@@ -19,31 +18,20 @@ const data = [
   },
 ];
 
-const requestHandler = (request, response) => {
-  response.setHeader("Content-Type", "text/html; charset=utf-8;");
-  if (request.method == "GET") {
-    if (request.url === "" || request.url === "/") {
-      response.write("<h2></h2>");
-    } else if (request.url === "/products") {
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify(data));
-    } else {
-      response.write("<h2></h2>");
+const express = require("express");
+const server = express();
+
+server.get(
+  "/products",
+  (request,
+  response) => {
+    try {
+      response.send(JSON.stringify(data));
+    } catch (err) {
+      ("Something wrong");
     }
-    response.end("");
-  } else {
-    // POST
-    let body = "";
-    request.on("data", (chunk) => {
-      body += chunk.toString();
-    });
-    request.on("end", () => {
-      data.push(JSON.parse(body));
-      response.end(JSON.stringify(data));
-    });
-  }
-};
-const server = http.createServer(requestHandler);
+  });
+
 server.listen(port, (err) => {
   if (err) {
     return console.log("something bad happened", err);
