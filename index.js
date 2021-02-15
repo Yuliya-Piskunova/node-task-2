@@ -1,40 +1,13 @@
-// содежимое index.js
-const port = 4000;
-const data = [
-  {
-    displayName: "Cyberpank 2077",
-    price: "60$",
-    rating: 2.7,
-  },
-  {
-    displayName: "SpongeBob SquarePants: Battle for Bikini Bottom – Rehydrated",
-    price: "40$",
-    rating: 9.8,
-  },
-  {
-    displayName: "God Of War",
-    price: "50$",
-    rating: 8.6,
-  },
-];
-
 const express = require("express");
+
 const server = express();
+const port = 5000;
 
-server.get(
-  "/products",
-  (request,
-  response) => {
-    try {
-      response.send(JSON.stringify(data));
-    } catch (err) {
-      ("Something wrong");
-    }
-  });
+const { productsRouter, catRouter } = require("./routes");
 
-server.listen(port, (err) => {
-  if (err) {
-    return console.log("something bad happened", err);
-  }
-  console.log(`server is listening on ${port}`);
+server.use("/products", productsRouter);
+server.use("/categories", catRouter);
+
+server.listen(port, () => {
+  console.log(`The server has been launched at port: ${port}`);
 });
