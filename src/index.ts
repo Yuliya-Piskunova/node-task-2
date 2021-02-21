@@ -1,13 +1,15 @@
-import { Express, Server } from "express";
+import "reflect-metadata";
+import express from "express";
 import router from "./routes";
+import { getConfig } from "./services/config";
 
-const db = require("./database");
-const express: Express = require("express");
-const server: Server = express();
-const PORT: Number = 5000;
+import "./database";
 
-server.use(router);
+const app = express();
+const PORT = Number(getConfig().DB) || 3000;
 
-server.listen(PORT, () => {
+app.use(router);
+
+app.listen(PORT, () => {
   console.log(`The server has been launched at port: ${PORT}`);
 });
