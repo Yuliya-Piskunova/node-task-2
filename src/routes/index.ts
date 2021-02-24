@@ -1,11 +1,10 @@
 import express from "express";
-import { Router } from "express";
-import productRouter from "./productRoute";
-import catRouter from "./catRoute";
+import { productRouter } from "./productsRoute";
+import { categoriesRouter } from "./categoriesRoute";
 
-const router: Router = express.Router();
+const router = express.Router();
 
 router.use("/products", productRouter);
-router.use("/categories", catRouter);
+router.use("/categories", categoriesRouter);
 
 export default router;
