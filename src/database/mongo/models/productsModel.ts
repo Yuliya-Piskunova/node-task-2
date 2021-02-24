@@ -1,20 +1,27 @@
-import mongoose, { Document } from "mongoose";
+import { Document } from "mongoose";
 import { Product } from "../../models/product";
 
-const ProductsSchema = new mongoose.Schema(
-  {
-    displayName: String,
-    categoryIds: [mongoose.Schema.Types.ObjectId],
-    createdAt: Date,
-    totalRating: Number,
-    price: Number,
-  },
-  {
-    collection: "products",
-  }
-);
+import { prop, getModelForClass } from "@typegoose/typegoose";
+import * as mongoose from "mongoose";
 
-const model = mongoose.model("Products", ProductsSchema);
+class ProductSchema {
+  @prop()
+  public displayName?: string;
+
+  @prop()
+  public categoryIds?: [mongoose.Schema.Types.ObjectId];
+
+  @prop()
+  public createdAt?: Date;
+
+  @prop()
+  public totalRating?: number;
+
+  @prop()
+  public price?: number;
+}
+
+const model = getModelForClass(ProductSchema);
 
 export const getById = async (id: string) => {
   const data = (await model.findById(id).exec()) as Document<

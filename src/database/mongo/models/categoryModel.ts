@@ -1,16 +1,17 @@
-import mongoose, { Document } from "mongoose";
+import { Document } from "mongoose";
 import { Category } from "../../models/category";
+import { prop, getModelForClass } from "@typegoose/typegoose";
+import * as mongoose from "mongoose";
 
-const CategorySchema = new mongoose.Schema(
-  {
-    displayName: String,
-  },
-  {
-    collection: "categories",
-  }
-);
+class CategorySchema {
+  @prop()
+  public displayName?: string;
 
-const model = mongoose.model("Category", CategorySchema);
+  @prop()
+  public collection?: string;
+}
+
+const model = getModelForClass(CategorySchema);
 
 export const getById = async (id: string) => {
   const data = (await model.findById(id).exec()) as Document<
